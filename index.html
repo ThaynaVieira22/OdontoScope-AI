@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OdontoScope AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1F3A;
+    --navy-mid: #102545;
+    --navy-light: #1a3a5c;
+    --accent: #2E7FC1;
+    --accent-light: #4A9FD8;
+    --white: #FFFFFF;
+    --off-white: #F4F7FB;
+    --gray-light: #E8EDF4;
+    --gray-text: #5A6A7E;
+    --text-dark: #0B1F3A;
+    --font: 'Outfit', sans-serif;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(11,31,58,0.10);
+    --transition: 0.3s ease;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    color: var(--text-dark);
+    background: var(--white);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--navy);
+    box-shadow: 0 2px 16px rgba(11,31,58,0.18);
+    transition: background var(--transition);
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    color: var(--white);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .logo-text .logo-ai {
+    color: var(--accent-light);
+    font-weight: 700;
+  }
+
+  nav { display: flex; align-items: center; gap: 0.25rem; }
+
+  nav a {
+    color: rgba(255,255,255,0.80);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 400;
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  nav a:hover { color: var(--white); background: rgba(255,255,255,0.10); }
+
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--white) !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.1rem !important;
+    border-radius: 8px !important;
+    margin-left: 0.5rem;
+  }
+
+  .nav-cta:hover { background: var(--accent-light) !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all var(--transition);
+  }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    background: var(--navy-mid);
+    padding: 1rem 2rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mobile-nav.open { display: flex; }
+
+  .mobile-nav a {
+    color: rgba(255,255,255,0.80);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: color var(--transition);
+  }
+
+  .mobile-nav a:hover { color: var(--white); }
+  .mobile-nav a:last-child { border-bottom: none; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 80% 50%, rgba(46,127,193,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(46,127,193,0.10) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(46,127,193,0.18);
+    border: 1px solid rgba(46,127,193,0.35);
+    color: #7EC8F0;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-title span { color: var(--accent-light); }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.68);
+    max-width: 500px;
+    margin-bottom: 2.25rem;
+    line-height: 1.8;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.85rem 2rem;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition);
+  }
+
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.85rem 2rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition);
+  }
+
+  .btn-outline:hover { border-color: rgba(255,255,255,0.55); color: white; }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .xray-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 380px;
+    backdrop-filter: blur(8px);
+  }
+
+  .xray-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .xray-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-red { background: #E24B4A; }
+  .dot-yellow { background: #EF9F27; }
+  .dot-green { background: #639922; }
+
+  .xray-label {
+    margin-left: auto;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .xray-image-placeholder {
+    background: rgba(0,0,0,0.35);
+    border-radius: 12px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.35);
+    font-size: 0.8rem;
+    margin-bottom: 1.25rem;
+    border: 1px dashed rgba(255,255,255,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .xray-image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    animation: shimmer 2.5s infinite;
+  }
+
+  @keyframes shimmer { to { left: 120%; } }
+
+  .xray-image-placeholder i { font-size: 2rem; color: rgba(255,255,255,0.25); }
+
+  .result-bar {
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+  }
+
+  .result-bar span { color: rgba(255,255,255,0.60); }
+
+  .result-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+  }
+
+  .pill-green { background: rgba(99,153,34,0.25); color: #97C459; }
+  .pill-yellow { background: rgba(239,159,39,0.25); color: #FAC775; }
+  .pill-red { background: rgba(226,75,74,0.25); color: #F09595; }
+
+  .confidence {
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.40);
+    text-align: center;
+  }
+
+  .confidence strong { color: var(--accent-light); }
+
+  /* ── SECTIONS SHARED ── */
+  section { padding: 5rem 2rem; }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--gray-text);
+    max-width: 580px;
+    line-height: 1.8;
+  }
+
+  .section-head { margin-bottom: 3.5rem; }
+
+  /* ── SOBRE ── */
+  #sobre { background: var(--off-white); }
+
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .sobre-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow);
+    border-left: 3px solid var(--accent);
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--gray-text);
+    margin-top: 0.3rem;
+  }
+
+  .sobre-image {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 2.5rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sobre-image::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(46,127,193,0.3) 0%, transparent 70%);
+  }
+
+  .sobre-image-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline { position: relative; z-index: 1; }
+
+  .timeline-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(46,127,193,0.25);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--accent-light);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .timeline-text strong {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .timeline-text span {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ── COMO FUNCIONA ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .step-card {
+    background: var(--white);
+    border: 1px solid var(--gray-light);
+    border-radius: var(--radius);
+    padding: 1.75rem 1.5rem;
+    transition: all var(--transition);
+    position: relative;
+  }
+
+  .step-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-4px);
+    border-color: rgba(46,127,193,0.25);
+  }
+
+  .step-number {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .step-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(46,127,193,0.10);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .step-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-card p {
+    font-size: 0.88rem;
+    color: var(--gray-text);
+    line-height: 1.7;
+  }
+
+  /* ── DIFERENCIAIS ── */
+  #diferenciais { background: var(--navy); }
+
+  #diferenciais .section-title { color: var(--white); }
+  #diferenciais .section-tag { color: #7EC8F0; }
+  #diferenciais .section-desc { color: rgba(255,255,255,0.60); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .feature-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    transition: all var(--transition);
+  }
+
+  .feature-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(46,127,193,0.35);
+  }
+
+  .feature-icon {
+    width: 46px;
+    height: 46px;
+    background: rgba(46,127,193,0.20);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7EC8F0;
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-card p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+  }
+
+  /* ── DIAGNÓSTICO ── */
+  #diagnostico { background: var(--off-white); }
+
+  .diagnostico-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .upload-area {
+    background: var(--white);
+    border: 2px dashed var(--gray-light);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    text-align: center;
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+
+  .upload-area:hover {
+    border-color: var(--accent);
+    background: rgba(46,127,193,0.03);
+  }
+
+  .upload-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+
+  .upload-area h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+
+  .upload-area p { font-size: 0.83rem; color: var(--gray-text); margin-bottom: 1.25rem; }
+
+  .upload-formats {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .format-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: var(--gray-light);
+    color: var(--gray-text);
+    padding: 3px 10px;
+    border-radius: 50px;
+  }
+
+  .btn-upload {
+    background: var(--accent);
+    color: white;
+    border: none;
+    font-family: var(--font);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-upload:hover { background: var(--accent-light); }
+
+  .aviso {
+    background: rgba(239,159,39,0.10);
+    border: 1px solid rgba(239,159,39,0.30);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 0.82rem;
+    color: #854F0B;
+  }
+
+  .aviso i { color: #EF9F27; font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+
+  .diagnostico-info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .diagnostico-info p {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+
+  .cist-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .cist-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--navy);
+  }
+
+  .cist-list li i { color: var(--accent); font-size: 0.8rem; }
+
+  /* ── CISTOS ── */
+  #cistos { background: var(--white); }
+
+  .cistos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .cisto-card {
+    border: 1px solid var(--gray-light);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all var(--transition);
+  }
+
+  .cisto-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+
+  .cisto-card-header {
+    background: var(--navy);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cisto-card-header i { color: var(--accent-light); font-size: 1.1rem; }
+
+  .cisto-card-header h3 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .cisto-card-body { padding: 1.25rem 1.5rem; }
+
+  .cisto-card-body p {
+    font-size: 0.85rem;
+    color: var(--gray-text);
+    line-height: 1.7;
+    margin-bottom: 0.85rem;
+  }
+
+  .cisto-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+    background: rgba(46,127,193,0.10);
+    color: var(--accent);
+  }
+
+  /* ── EQUIPE ── */
+  #equipe { background: var(--off-white); }
+
+  .equipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .membro-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .membro-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .membro-card:hover { transform: translateY(-4px); }
+  .membro-card:hover::before { opacity: 1; }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 auto 1rem;
+    box-shadow: 0 0 0 4px rgba(46,127,193,0.15);
+    transition: box-shadow var(--transition);
+  }
+
+  .membro-card:hover .avatar { box-shadow: 0 0 0 7px rgba(46,127,193,0.25); }
+
+  .membro-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem; }
+  .membro-card .role { font-size: 0.8rem; color: var(--accent); font-weight: 500; margin-bottom: 0.3rem; }
+  .membro-card .inst { font-size: 0.78rem; color: var(--gray-text); }
+
+  /* ── PUBLICAÇÕES ── */
+  #publicacoes { background: var(--white); }
+
+  .pub-list { display: flex; flex-direction: column; gap: 1rem; }
+
+  .pub-item {
+    background: var(--off-white);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    transition: all var(--transition);
+  }
+
+  .pub-item:hover { box-shadow: var(--shadow); }
+
+  .pub-year {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+  }
+
+  .pub-title { font-size: 0.92rem; font-weight: 600; color: var(--navy); margin-bottom: 0.25rem; }
+  .pub-authors { font-size: 0.80rem; color: var(--gray-text); }
+
+  /* ── CONTATO ── */
+  #contato { background: var(--navy); }
+  #contato .section-title { color: var(--white); }
+  #contato .section-tag { color: #7EC8F0; }
+  #contato .section-desc { color: rgba(255,255,255,0.60); }
+
+  .contato-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .contact-form {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: var(--radius);
+    padding: 2rem;
+  }
+
+  .form-group { margin-bottom: 1.25rem; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    color: white;
+    font-family: var(--font);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(255,255,255,0.30); }
+
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--accent); }
+
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .contact-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .contact-item-icon {
+    width: 42px;
+    height: 42px;
+    background: rgba(46,127,193,0.20);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7EC8F0;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .contact-item-text strong {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .contact-item-text span { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #060F1E;
+    padding: 2.5rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-brand { color: rgba(255,255,255,0.75); font-size: 0.85rem; }
+  .footer-brand strong { color: white; }
+
+  .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+  .footer-links a {
+    color: rgba(255,255,255,0.50);
+    text-decoration: none;
+    font-size: 0.82rem;
+    transition: color var(--transition);
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,0.85); }
+
+  .footer-note {
+    max-width: 1200px;
+    margin: 1.5rem auto 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.30);
+    text-align: center;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-visual { order: -1; }
+    .sobre-grid { grid-template-columns: 1fr; }
+    .diagnostico-wrapper { grid-template-columns: 1fr; }
+    .contato-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 3.5rem 1.25rem; }
+    .sobre-stats { grid-template-columns: 1fr 1fr; }
+    .footer-inner { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+    .back-to-top { bottom: 1.25rem; right: 1.25rem; }
+  }
+
+  @media (max-width: 480px) {
+    .header-inner { padding: 0 1.25rem; }
+    .hero-actions { flex-direction: column; }
+    .btn-primary, .btn-outline { justify-content: center; }
+    .sobre-stats { grid-template-columns: 1fr; }
+  }
+
+  /* ── SCROLL PROGRESS ── */
+  .scroll-progress {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    width: 0%;
+    z-index: 999;
+    transition: width 0.08s linear;
+  }
+
+  /* ── BACK TO TOP ── */
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 4px 16px rgba(46,127,193,0.45);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all var(--transition);
+    z-index: 998;
+  }
+
+  .back-to-top.visible { opacity: 1; transform: translateY(0); }
+  .back-to-top:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── PULSE ANIMATION ── */
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    border-radius: 2px;
+    margin: 1rem 0 2rem;
+  }
+
+  /* ── NAV ACTIVE STATE ── */
+  nav a.active {
+    color: var(--white);
+    background: rgba(255,255,255,0.10);
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Voltar ao topo">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#inicio" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-microscope"></i></div>
+      <div>
+        <span class="logo-text">OdontoScope <span class="logo-ai">AI</span></span>
+        <span class="logo-tagline">IFPB · Diagnóstico Odontológico</span>
+      </div>
+    </a>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#cistos">Cistos</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#publicacoes">Publicações</a>
+      <a href="#contato">Contato</a>
+      <a href="#diagnostico" class="nav-cta"><i class="fa-solid fa-brain"></i> Diagnóstico IA</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#sobre">Sobre o Projeto</a>
+    <a href="#como-funciona">Como Funciona</a>
+    <a href="#diferenciais">Diferenciais</a>
+    <a href="#diagnostico">Diagnóstico por IA</a>
+    <a href="#cistos">Cistos Odontogênicos</a>
+    <a href="#equipe">Equipe</a>
+    <a href="#publicacoes">Publicações</a>
+    <a href="#contato">Contato</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fa-solid fa-circle-dot pulse-dot" style="font-size:8px;"></i>
+        Pesquisa Acadêmica — TI & Odontologia
+      </div>
+      <h1 class="hero-title">
+        Diagnóstico inteligente de<br>
+        <span>cistos odontogênicos</span><br>
+        por radiografias
+      </h1>
+      <p class="hero-desc">
+        Sistema baseado em inteligência artificial para auxílio ao diagnóstico de cistos odontogênicos por meio de análise de radiografias panorâmicas — unindo tecnologia e saúde bucal.
+      </p>
+      <div class="hero-actions">
+        <a href="#diagnostico" class="btn-primary">
+          <i class="fa-solid fa-upload"></i> Enviar Radiografia
+        </a>
+        <a href="#sobre" class="btn-outline">
+          <i class="fa-solid fa-circle-info"></i> Saiba Mais
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="xray-card">
+        <div class="xray-header">
+          <div class="xray-dot dot-red"></div>
+          <div class="xray-dot dot-yellow"></div>
+          <div class="xray-dot dot-green"></div>
+          <span class="xray-label">Análise em tempo real</span>
+        </div>
+        <div class="xray-image-placeholder">
+          <i class="fa-solid fa-x-ray"></i>
+          <span>Radiografia panorâmica</span>
+        </div>
+        <div class="result-bar">
+          <span>Cisto Dentígero</span>
+          <span class="result-pill pill-red">Alta probabilidade</span>
+        </div>
+        <div class="result-bar">
+          <span>Cisto Radicular</span>
+          <span class="result-pill pill-yellow">Moderada</span>
+        </div>
+        <div class="result-bar">
+          <span>Cisto Nasopalatino</span>
+          <span class="result-pill pill-green">Baixa</span>
+        </div>
+        <p class="confidence">Confiança do modelo: <strong>87.4%</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="container">
+    <div class="sobre-grid">
+      <div>
+        <span class="section-tag">Sobre o Projeto</span>
+        <h2 class="section-title">Tecnologia a serviço da saúde bucal</h2>
+        <p style="color: var(--gray-text); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1rem;">
+          Este projeto acadêmico interdisciplinar une a Tecnologia da Informação e a Odontologia para desenvolver uma ferramenta baseada em inteligência artificial capaz de auxiliar profissionais no diagnóstico precoce de cistos odontogênicos.
+        </p>
+        <p style="color: var(--gray-text); font-size: 0.95rem; line-height: 1.8;">
+          Através da análise automatizada de radiografias panorâmicas, o sistema busca reduzir o tempo diagnóstico e ampliar a precisão clínica, especialmente em contextos de atenção primária à saúde.
+        </p>
+        <div class="sobre-stats">
+          <div class="stat-card">
+            <div class="stat-number">~3%</div>
+            <div class="stat-label">das lesões orais são cistos odontogênicos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">IA</div>
+            <div class="stat-label">análise assistida por visão computacional</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">acadêmico e sem fins lucrativos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">Web</div>
+            <div class="stat-label">acesso universal, via navegador</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sobre-image">
+        <p class="sobre-image-title"><i class="fa-solid fa-route" style="margin-right:8px; color: var(--accent-light);"></i>Fases do projeto</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot">1</div>
+            <div class="timeline-text">
+              <strong>Revisão bibliográfica</strong>
+              <span>Levantamento de estudos sobre cistos odontogênicos e IA aplicada</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">2</div>
+            <div class="timeline-text">
+              <strong>Curadoria do dataset</strong>
+              <span>Coleta e anotação de radiografias panorâmicas rotuladas</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">3</div>
+            <div class="timeline-text">
+              <strong>Desenvolvimento do modelo</strong>
+              <span>Treinamento e validação de rede neural convolucional (CNN)</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">4</div>
+            <div class="timeline-text">
+              <strong>Interface web</strong>
+              <span>Integração do modelo ao site para uso clínico assistido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Fluxo de Uso</span>
+      <h2 class="section-title">Como o sistema funciona</h2>
+      <p class="section-desc">Em quatro etapas simples, o sistema analisa a imagem radiográfica e entrega um relatório de suporte ao diagnóstico clínico.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">Etapa 01</div>
+        <div class="step-icon"><i class="fa-solid fa-upload"></i></div>
+        <h3>Envio da radiografia</h3>
+        <p>O profissional faz o upload da radiografia panorâmica diretamente pelo site, nos formatos JPEG, PNG ou DICOM.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">Etapa 02</div>
+        <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <h3>Pré-processamento</h3>
+        <p>A imagem é normalizada e preparada automaticamente para garantir a qualidade da entrada no modelo de IA.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">Etapa 03</div>
+        <div class="step-icon"><i class="fa-solid fa-brain"></i></div>
+        <h3>Análise por IA</h3>
+        <p>A rede neural convolucional identifica regiões de interesse e classifica a provável natureza da lesão detectada.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">Etapa 04</div>
+        <div class="step-icon"><i class="fa-solid fa-file-medical"></i></div>
+        <h3>Relatório de suporte</h3>
+        <p>O sistema gera um relatório com probabilidades por tipo de cisto e destaca as regiões analisadas na imagem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Diferenciais</span>
+      <h2 class="section-title">Por que este sistema importa</h2>
+      <p class="section-desc">Combinamos rigor científico com tecnologia acessível para criar uma solução real para o diagnóstico odontológico.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+        <h3>Análise rápida</h3>
+        <p>Resultados em segundos, auxiliando profissionais em contextos de alta demanda clínica e triagem.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Privacidade dos dados</h3>
+        <p>As imagens enviadas não são armazenadas permanentemente. O sistema respeita boas práticas de segurança.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <h3>Base científica sólida</h3>
+        <p>O modelo é treinado com dados anotados por especialistas e validado com métricas clínicas rigorosas.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
+        <h3>Acesso universal</h3>
+        <p>Disponível via navegador, sem instalação, acessível de qualquer dispositivo com conexão à internet.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-stethoscope"></i></div>
+        <h3>Suporte, não substituição</h3>
+        <p>O sistema auxilia o profissional, jamais substitui o diagnóstico clínico e o julgamento do especialista.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h3>Origem acadêmica</h3>
+        <p>Desenvolvido com transparência metodológica e comprometimento com a ética na pesquisa científica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Ferramenta</span>
+      <h2 class="section-title">Diagnóstico assistido por IA</h2>
+      <p class="section-desc">Envie uma radiografia panorâmica e receba uma análise preliminar baseada no modelo de inteligência artificial em desenvolvimento.</p>
+    </div>
+    <div class="diagnostico-wrapper">
+      <div>
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <h3>Enviar radiografia panorâmica</h3>
+          <p>Arraste e solte o arquivo aqui ou clique para selecionar</p>
+          <div class="upload-formats">
+            <span class="format-tag">JPEG</span>
+            <span class="format-tag">PNG</span>
+            <span class="format-tag">DICOM</span>
+            <span class="format-tag">TIFF</span>
+          </div>
+          <button class="btn-upload" onclick="event.stopPropagation()">
+            <i class="fa-solid fa-folder-open"></i> Selecionar arquivo
+          </button>
+          <input type="file" id="fileInput" style="display:none" accept="image/*" onchange="handleFile(this)">
+        </div>
+        <div class="aviso">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span><strong>Aviso importante:</strong> Esta ferramenta está em fase de desenvolvimento acadêmico. Os resultados não substituem a avaliação clínica realizada por um cirurgião-dentista ou especialista habilitado.</span>
+        </div>
+      </div>
+
+      <div class="diagnostico-info">
+        <h3>Tipos de cistos identificados</h3>
+        <p>O modelo em desenvolvimento é treinado para auxiliar na identificação dos principais cistos odontogênicos observáveis em radiografias panorâmicas:</p>
+        <ul class="cist-list">
+          <li><i class="fa-solid fa-circle-dot"></i> Cisto dentígero (folicular)</li>
+          <li><i class="fa-solid fa-circle-dot"></i> Cisto radicular (periapical)</li>
+          <li><i class="fa-solid fa-circle-dot"></i> Queratocisto odontogênico</li>
+          <li><i class="fa-solid fa-circle-dot"></i> Cisto periodontal lateral</li>
+          <li><i class="fa-solid fa-circle-dot"></i> Cisto nasopalatino</li>
+          <li><i class="fa-solid fa-circle-dot"></i> Cisto globulomaxilar</li>
+        </ul>
+        <p style="margin-top: 1.25rem; font-size: 0.83rem;">
+          Após o envio, o sistema destaca regiões de interesse na imagem e apresenta probabilidades por categoria, acompanhadas de referências bibliográficas relevantes.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CISTOS ODONTOGÊNICOS -->
+<section id="cistos">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Educação Clínica</span>
+      <h2 class="section-title">Sobre os cistos odontogênicos</h2>
+      <p class="section-desc">Lesões de origem epitelial dos tecidos odontogênicos, os cistos representam um desafio diagnóstico relevante na prática odontológica.</p>
+    </div>
+    <div class="cistos-grid">
+      <div class="cisto-card">
+        <div class="cisto-card-header">
+          <i class="fa-solid fa-circle-question"></i>
+          <h3>O que são?</h3>
+        </div>
+        <div class="cisto-card-body">
+          <p>Cistos odontogênicos são cavidades patológicas revestidas por epitélio derivado dos tecidos formadores do dente. Podem ser de origem inflamatória ou de desenvolvimento.</p>
+          <span class="cisto-badge">Definição</span>
+        </div>
+      </div>
+      <div class="cisto-card">
+        <div class="cisto-card-header">
+          <i class="fa-solid fa-chart-bar"></i>
+          <h3>Epidemiologia</h3>
+        </div>
+        <div class="cisto-card-body">
+          <p>Representam cerca de 17% das lesões ósseas dos maxilares. O cisto radicular é o mais prevalente, seguido pelo cisto dentígero, que está frequentemente associado a dentes impactados.</p>
+          <span class="cisto-badge">Dados clínicos</span>
+        </div>
+      </div>
+      <div class="cisto-card">
+        <div class="cisto-card-header">
+          <i class="fa-solid fa-eye"></i>
+          <h3>Diagnóstico</h3>
+        </div>
+        <div class="cisto-card-body">
+          <p>O diagnóstico envolve análise radiográfica, avaliação clínica e, em muitos casos, confirmação histopatológica. A radiografia panorâmica é o principal exame de triagem inicial.</p>
+          <span class="cisto-badge">Metodologia</span>
+        </div>
+      </div>
+      <div class="cisto-card">
+        <div class="cisto-card-header">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <h3>Importância do diagnóstico precoce</h3>
+        </div>
+        <div class="cisto-card-body">
+          <p>Quando não tratados, os cistos podem causar destruição óssea progressiva, deslocamento dentário e, em casos raros, transformação neoplásica. O diagnóstico precoce é essencial.</p>
+          <span class="cisto-badge">Prognóstico</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section id="equipe">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Equipe</span>
+      <h2 class="section-title">Quem está por trás do projeto</h2>
+      <p class="section-desc">Uma equipe multidisciplinar unindo conhecimento em TI, odontologia e pesquisa científica — vinculada ao IFPB.</p>
+    </div>
+    <div class="equipe-grid">
+      <div class="membro-card">
+        <div class="avatar" style="background: var(--navy);">TV</div>
+        <h3>Thaynara Vieira dos Santos</h3>
+        <div class="role">Pesquisadora Principal — Desenvolvimento & TI</div>
+        <div class="inst">IFPB — Instituto Federal da Paraíba</div>
+      </div>
+      <div class="membro-card">
+        <div class="avatar" style="background: var(--navy);">TV</div>
+        <h3>Thayná Vieira dos Santos</h3>
+        <div class="role">Pesquisadora Principal — Desenvolvimento & TI</div>
+        <div class="inst">IFPB — Instituto Federal da Paraíba</div>
+      </div>
+      <div class="membro-card">
+        <div class="avatar" style="background: var(--accent);">AW</div>
+        <h3>Arley Willer Neves da Silva</h3>
+        <div class="role">Orientador</div>
+        <div class="inst">UNI - RN - Centro Universitário do Rio Grande do Norte</div>
+      </div>
+      <div class="membro-card">
+        <div class="avatar" style="background: var(--navy-light);">GV</div>
+        <h3>Gabrielle Vieira dos Santos</h3>
+        <div class="role">Coorientadora</div>
+        <div class="inst">UNIPÊ - Centro Universitário de João Pessoa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICAÇÕES -->
+<section id="publicacoes">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Referências & Publicações</span>
+      <h2 class="section-title">Base científica do projeto</h2>
+      <p class="section-desc">O sistema é fundamentado em literatura científica revisada por pares sobre diagnóstico de cistos e IA aplicada à imagenologia odontológica.</p>
+    </div>
+    <div class="pub-list">
+      <div class="pub-item">
+        <div class="pub-year">Referência Base</div>
+        <div class="pub-title">Artificial intelligence in oral and maxillofacial radiology: what is currently possible?</div>
+        <div class="pub-authors">Hung K. et al. — Dentomaxillofacial Radiology, 2021</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-year">Referência Base</div>
+        <div class="pub-title">Deep learning for detection and classification of cysts and tumors of the jaw</div>
+        <div class="pub-authors">Kuwana R. et al. — Journal of Oral and Maxillofacial Surgery, 2021</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-year">Referência Base</div>
+        <div class="pub-title">WHO Classification of Head and Neck Tumours — Odontogenic and Maxillofacial Bone Tumors</div>
+        <div class="pub-authors">El-Naggar AK et al. — IARC, 2017</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-year">Produção do Projeto</div>
+        <div class="pub-title">Sistema de auxílio ao diagnóstico de cistos odontogênicos via aprendizado profundo — Artigo em elaboração</div>
+        <div class="pub-authors">Equipe do Projeto — Trabalho de Conclusão de Curso</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Fale Conosco</span>
+      <h2 class="section-title">Entre em contato</h2>
+      <p class="section-desc">Dúvidas, sugestões ou interesse em colaborar com o projeto? Envie uma mensagem.</p>
+    </div>
+    <div class="contato-grid">
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label>Assunto</label>
+          <select>
+            <option value="" disabled selected>Selecione um assunto</option>
+            <option>Colaboração acadêmica</option>
+            <option>Dúvidas sobre o sistema</option>
+            <option>Participar como voluntário</option>
+            <option>Imprensa</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensagem</label>
+          <textarea placeholder="Escreva sua mensagem..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; justify-content:center;">
+          <i class="fa-solid fa-paper-plane"></i> Enviar mensagem
+        </button>
+      </div>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="contact-item-text">
+            <strong>E-mail institucional</strong>
+            <span>contato@odontoscope.ifpb.edu.br</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="fa-solid fa-building-columns"></i></div>
+          <div class="contact-item-text">
+            <strong>Instituição</strong>
+            <span>IFPB — Instituto Federal de Educação, Ciência e Tecnologia da Paraíba</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="fa-solid fa-flask"></i></div>
+          <div class="contact-item-text">
+            <strong>Natureza do projeto</strong>
+            <span>Trabalho Acadêmico — sem fins lucrativos</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="fa-brands fa-github"></i></div>
+          <div class="contact-item-text">
+            <strong>Repositório</strong>
+            <span>Código-fonte disponível no GitHub (em breve)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>OdontoScope AI</strong><br>
+      Projeto acadêmico IFPB — TI aplicada à saúde bucal
+    </div>
+    <div class="footer-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#diagnostico">Diagnóstico IA</a>
+      <a href="#cistos">Cistos</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#publicacoes">Publicações</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </div>
+  <p class="footer-note">
+    Este sistema é de natureza acadêmica e não substitui avaliação clínica profissional. Desenvolvido como projeto de TI aplicada à odontologia — IFPB.
+  </p>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.toggle('open');
+  });
+
+  function closeMobileNav() {
+    mobileNav.classList.remove('open');
+  }
+
+  function handleFile(input) {
+    if (input.files && input.files[0]) {
+      const area = document.getElementById('uploadArea');
+      const file = input.files[0];
+      area.innerHTML = `
+        <div class="upload-icon" style="color: #639922;"><i class="fa-solid fa-circle-check"></i></div>
+        <h3 style="color: var(--navy);">Arquivo selecionado</h3>
+        <p>${file.name}</p>
+        <p style="color: #639922; font-size: 0.82rem; font-weight: 600;">Aguardando integração com o modelo de IA</p>
+        <button class="btn-upload" style="background: var(--gray-text); margin-top: 0.5rem;" onclick="resetUpload()">
+          <i class="fa-solid fa-rotate-left"></i> Remover arquivo
+        </button>
+      `;
+    }
+  }
+
+  function resetUpload() {
+    const area = document.getElementById('uploadArea');
+    area.innerHTML = `
+      <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+      <h3>Enviar radiografia panorâmica</h3>
+      <p>Arraste e solte o arquivo aqui ou clique para selecionar</p>
+      <div class="upload-formats">
+        <span class="format-tag">JPEG</span>
+        <span class="format-tag">PNG</span>
+        <span class="format-tag">DICOM</span>
+        <span class="format-tag">TIFF</span>
+      </div>
+      <button class="btn-upload" onclick="event.stopPropagation()">
+        <i class="fa-solid fa-folder-open"></i> Selecionar arquivo
+      </button>
+      <input type="file" id="fileInput" style="display:none" accept="image/*" onchange="handleFile(this)">
+    `;
+    area.onclick = () => document.getElementById('fileInput').click();
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        closeMobileNav();
+      }
+    });
+  });
+
+  // Scroll progress bar + back to top + nav ativo
+  const progressBar = document.getElementById('scrollProgress');
+  const backToTop = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    if (progressBar) progressBar.style.width = pct + '%';
+    if (backToTop) backToTop.classList.toggle('visible', scrollTop > 400);
+
+    const sections = document.querySelectorAll('section[id]');
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+    });
+    document.querySelectorAll('nav a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.step-card, .feature-card, .membro-card, .cisto-card, .pub-item, .stat-card, .sobre-grid > div, .section-head');
+  revealEls.forEach(el => el.classList.add('reveal'));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --navy: #0B1F3A;
+    --navy-mid: #102545;
+    /* ... todo o restante do CSS que você enviou ... */
+}
+
+/* Garanta que as animações de scroll e reveal também estejam aqui */
