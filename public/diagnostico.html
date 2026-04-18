@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoCysto AI - Diagnóstico AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">OC</div>
+        <div class="brand-text">
+          <strong>OdontoCysto AI</strong>
+          <span data-mode-label>Modo teste</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Menu da página de diagnóstico">
+        <a href="index.html">Home</a>
+        <a href="login.html">Entrar/Cadastrar</a>
+        <button class="btn btn-outline" data-open-home>Voltar para Home</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo-principal" class="section">
+    <div class="container">
+      <div class="section-title">
+        <div class="kicker">Diagnóstico AI</div>
+        <h2>Interação com a inteligência artificial</h2>
+        <p>
+          Faça upload do exame, preencha os dados clínicos e receba uma sugestão diagnóstica com explicação simples
+          de interpretabilidade.
+        </p>
+      </div>
+
+      <div class="diagnosis-layout">
+        <!-- COLUNA ESQUERDA: INPUTS -->
+        <section class="card">
+          <h3>1. Upload do exame</h3>
+          <div class="upload" data-upload>
+            <div style="font-size:2rem;margin-bottom:8px;" aria-hidden="true">📤</div>
+            <strong>Clique para selecionar ou arraste a imagem aqui</strong>
+            <p class="tiny muted" style="margin-top:8px;">
+              Formatos aceitos: JPG, PNG. No modo teste, limite sugerido de 5MB.
+            </p>
+            <input type="file" data-upload-input accept=".jpg,.jpeg,.png" aria-label="Enviar imagem do exame" />
+            <p class="tiny" data-upload-text style="margin-top:10px;" aria-live="polite"></p>
+          </div>
+
+          <!-- PRÉ-VISUALIZAÇÃO DA IMAGEM -->
+          <div style="margin-top:16px;">
+            <h3 style="margin-bottom:8px;">Pré-visualização do exame</h3>
+            <div style="border-radius:16px;border:1px solid var(--line);background:#fff;padding:12px;min-height:120px;display:flex;align-items:center;justify-content:center;">
+              <img
+                id="preview-exame"
+                alt="Pré-visualização do exame enviado"
+                style="max-width:100%;max-height:260px;display:none;border-radius:12px;"
+              />
+              <span id="preview-placeholder" class="tiny muted">
+                Nenhuma imagem selecionada até o momento.
+              </span>
+            </div>
+          </div>
+
+          <!-- STATUS DE ANÁLISE -->
+          <p id="status-analise" class="tiny muted" style="margin-top:8px;" aria-live="polite"></p>
+
+          <h3 style="margin-top:22px;">2. Dados clínicos</h3>
+          <div class="grid grid-2" style="gap:14px;">
+            <div>
+              <label class="label" for="idade">Idade</label>
+              <input id="idade" class="input" type="number" min="0" max="120" placeholder="Ex.: 35" />
+            </div>
+            <div>
+              <label class="label" for="sexo">Sexo</label>
+              <select id="sexo" class="input">
+                <option value="">Selecione</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Não informado">Não informado</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="localizacao">Localização da lesão</label>
+              <input id="localizacao" class="input" type="text" placeholder="Ex.: mandíbula posterior" />
+            </div>
+            <div>
+              <label class="label" for="sintomas">Sinais / sintomas</label>
+              <input id="sintomas" class="input" type="text" placeholder="Ex.: dor, aumento de volume" />
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <label class="label" for="hist">Histórico clínico</label>
+            <textarea id="hist" class="input" rows="4" placeholder="Resumo clínico do caso"></textarea>
+          </div>
+
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;">
+            <button class="btn btn-soft" data-process>Processar com IA</button>
+            <button class="btn btn-primary" data-requires-professional>Exportar laudo</button>
+          </div>
+
+          <div class="warning">
+            Ferramenta de apoio à decisão, não substitui exame histopatológico nem julgamento clínico.
+          </div>
+
+          <div data-status class="notice" style="margin-top:16px;" aria-live="polite">
+            Envie a imagem, preencha os campos clínicos obrigatórios e clique em “Processar com IA” para gerar uma sugestão diagnóstica.
+          </div>
+
+          <h3 style="margin-top:24px;">Como o sistema chegou a esse resultado?</h3>
+          <div class="card" style="padding:16px;margin-top:10px;background:#f9fbff;">
+            <p class="small muted" data-result-explain>
+              O resultado será explicado em linguagem simples, citando padrões radiográficos, localização,
+              contexto clínico e possíveis fatores de atenção.
+            </p>
+          </div>
+        </section>
+
+        <!-- COLUNA DIREITA: RESULTADO -->
+        <aside class="result-box">
+          <div class="result-top">
+            <div>
+              <div class="tiny muted">Sugestão diagnóstica</div>
+              <h3 data-result-title style="margin-bottom:0;">Provável cisto odontogênico inflamatório</h3>
+            </div>
+            <div style="text-align:right;">
+              <div class="tiny muted">Probabilidade</div>
+              <div class="big-prob" data-result-prob>–</div>
+            </div>
+          </div>
+
+          <div class="pills" data-result-tags>
+            <span class="pill">Lesão radiolúcida</span>
+            <span class="pill">Margens bem delimitadas</span>
+            <span class="pill">Região posterior de mandíbula</span>
+          </div>
+
+          <div class="notice" style="margin-top:16px;">
+            A saída exibida aqui é demonstrativa. No seu projeto real, ela deve vir do modelo de IA.
+          </div>
+
+          <div class="warning">
+            Destaque obrigatório: ferramenta de apoio à decisão, não substitui exame histopatológico nem julgamento clínico.
+          </div>
+        </aside>
+      </div>
+
+      <section class="section" style="padding-bottom:0;">
+        <div class="section-title">
+          <div class="kicker">Modo profissional</div>
+          <h2>Benefícios adicionais</h2>
+          <p>
+            No modo profissional, o usuário pode armazenar casos, exportar laudos e manter histórico de uso.
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="card">
+            <h3>Armazenar casos</h3>
+            <p>Guardar casos anonimizados para acompanhamento e revisão futura.</p>
+          </div>
+          <div class="card">
+            <h3>Exportar laudos</h3>
+            <p>Gerar relatórios em PDF ou HTML com os dados e a sugestão da IA.</p>
+          </div>
+          <div class="card">
+            <h3>Histórico de uso</h3>
+            <p>Consultar análises anteriores e melhorar a organização acadêmica e clínica.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- SOBRE A IA -->
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">Sobre a IA</div>
+          <h2>Como esta inteligência artificial funciona</h2>
+          <p>
+            Este sistema é um protótipo acadêmico de apoio ao diagnóstico, treinado com casos clínicos e radiográficos
+            selecionados, e não substitui o exame histopatológico nem o julgamento profissional.[web:161][web:163]
+          </p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Dados considerados</h3>
+            <p>
+              A IA correlaciona padrões da imagem (radiografias ou tomografias) com dados clínicos básicos, como idade,
+              sexo, localização da lesão e sintomas relatados, para sugerir hipóteses diagnósticas mais prováveis.[web:161][web:165]
+            </p>
+          </div>
+          <div class="card">
+            <h3>Limitações e uso responsável</h3>
+            <p>
+              A ferramenta não cobre todas as patologias possíveis, não emite laudos e não deve ser usada isoladamente
+              para tomada de decisão clínica. Seu uso é recomendado para discussão de casos, ensino e pesquisa.[web:167][web:152]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>OdontoCysto AI</strong><br />
+        <span class="tiny">Apoio ao diagnóstico em odontologia.</span>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <a href="#">Termos de Uso</a>
+        <a href="#">Política de Privacidade</a>
+        <a href="index.html#suporte">Contato</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

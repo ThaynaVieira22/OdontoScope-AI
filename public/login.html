@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoCysto AI - Acesso</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
+
+  <div class="auth-shell">
+    <section class="auth-left" aria-labelledby="titulo-apresentacao">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">OC</div>
+        <div class="brand-text">
+          <strong>OdontoCysto AI</strong>
+          <span>Projeto acadêmico em TI e Odontologia</span>
+        </div>
+      </div>
+
+      <h1 id="titulo-apresentacao">Uma plataforma de apoio ao diagnóstico de cistos odontogênicos.</h1>
+      <p>
+        Use o modo teste para conhecer a ferramenta sem cadastro ou entre com acesso profissional para salvar
+        casos, exportar laudos e acompanhar histórico.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-open-home>Entrar no sistema</button>
+        <button class="btn btn-outline" data-open-diagnostico>Iniciar teste</button>
+      </div>
+
+      <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap;">
+        <a class="btn btn-soft" href="#" aria-label="Abrir termos de uso">Termos de Uso</a>
+        <a class="btn btn-soft" href="#" aria-label="Abrir política de privacidade">Política de Privacidade</a>
+      </div>
+    </section>
+
+    <section class="auth-right" id="conteudo-principal">
+      <div class="auth-card">
+        <div class="tabs" role="tablist" aria-label="Opções de acesso">
+          <button class="tab-btn active" data-tab="login" role="tab" aria-selected="true">Entrar</button>
+          <button class="tab-btn" data-tab="cadastro" role="tab" aria-selected="false">Cadastrar-se</button>
+        </div>
+
+        <div class="notice" data-mode-label>Modo teste</div>
+
+        <div class="tab-panel active" data-panel="login" role="tabpanel">
+          <h2 style="color:var(--primary);margin-bottom:8px;">Acesso profissional</h2>
+          <p class="muted small" style="margin-bottom:16px;">
+            Acesso para profissionais e pesquisadores com recursos completos.
+          </p>
+
+          <div class="form">
+            <div>
+              <label class="label" for="loginEmail">E-mail</label>
+              <input id="loginEmail" class="input" type="email" placeholder="nome@instituicao.br" autocomplete="email" />
+            </div>
+            <div>
+              <label class="label" for="loginSenha">Senha</label>
+              <input id="loginSenha" class="input" type="password" placeholder="Sua senha" autocomplete="current-password" />
+            </div>
+            <div data-login-msg aria-live="polite"></div>
+            <button class="btn btn-soft btn-block" data-login>Entrar</button>
+            <button class="btn btn-primary btn-block" data-open-diagnostico style="margin-top:2px;">Iniciar teste</button>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="cadastro" role="tabpanel">
+          <h2 style="color:var(--primary);margin-bottom:8px;">Criar conta</h2>
+          <p class="muted small" style="margin-bottom:16px;">
+            O cadastro é voltado para uso profissional e acadêmico.
+          </p>
+
+          <div class="form">
+            <div>
+              <label class="label" for="cadNome">Nome completo</label>
+              <input id="cadNome" class="input" type="text" autocomplete="name" />
+            </div>
+            <div>
+              <label class="label" for="cadProfissao">Profissão / vínculo</label>
+              <input id="cadProfissao" class="input" type="text" />
+            </div>
+            <div>
+              <label class="label" for="cadEmail">E-mail institucional</label>
+              <input id="cadEmail" class="input" type="email" autocomplete="email" />
+            </div>
+            <div>
+              <label class="label" for="cadInstituicao">Instituição</label>
+              <input id="cadInstituicao" class="input" type="text" />
+            </div>
+            <div>
+              <label class="label" for="cadSenha">Senha</label>
+              <input id="cadSenha" class="input" type="password" autocomplete="new-password" />
+            </div>
+            <div>
+              <label class="label" for="cadConfirmaSenha">Confirmar senha</label>
+              <input id="cadConfirmaSenha" class="input" type="password" autocomplete="new-password" />
+            </div>
+            <label class="tiny" style="display:flex;gap:10px;align-items:flex-start;">
+              <input id="cadConcordo" type="checkbox" style="margin-top:4px;" />
+              Declaro que li e concordo com os Termos de Uso e a Política de Privacidade.
+            </label>
+            <div data-cadastro-msg aria-live="polite"></div>
+            <button class="btn btn-soft btn-block" data-cadastro>Concluir cadastro</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
